@@ -50,6 +50,8 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "pricingHighlight": "pro"
 } /*EDITMODE-END*/;
 
+const APP_STORE_URL = 'https://apps.apple.com/us/app/techease-phone-tech-support/id6761957861';
+
 /* ─── ICONS (inline SVG) ─── */
 const Icon = ({ name, size = 24, color = "currentColor" }) => {
   const icons = {
@@ -161,7 +163,7 @@ const PhoneMockup = () =>
 
 /* ─── APP STORE BUTTON ─── */
 const AppStoreBtn = ({ large, color = '#1A1A2E' }) =>
-<a href="#download" style={{
+<a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" style={{
   display: 'inline-flex', alignItems: 'center', gap: 10,
   background: color,
   color: '#fff', textDecoration: 'none',
@@ -554,7 +556,7 @@ const Pricing = ({ tweaks }) => {
                 <span style={{ fontSize: 15, fontWeight: 600, color: '#1A1A2E' }}>{f}</span>
               </div>
             )}
-            <a href="#download" style={{
+            <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" style={{
               display: 'block', textAlign: 'center', marginTop: 28,
               padding: '14px 20px', borderRadius: 14,
               border: `2px solid ${tweaks.accentColor}`,
@@ -591,7 +593,7 @@ const Pricing = ({ tweaks }) => {
                 <span style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>{f}</span>
               </div>
             )}
-            <a href="#download" style={{
+            <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" style={{
               display: 'block', textAlign: 'center', marginTop: 28,
               padding: '14px 20px', borderRadius: 14,
               background: 'white',
