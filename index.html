@@ -219,8 +219,8 @@ const Nav = ({ tweaks }) => {
           {label:'How It Works', href:'#how-it-works'},
           {label:'Features', href:'#features'},
           {label:'Pricing', href:'#pricing'},
-          {label:'Privacy', href:'privacy.html'},
-          {label:'Terms', href:'terms.html'},
+          {label:'Privacy', href:'/privacy'},
+          {label:'Terms', href:'/terms'},
         ].map((item) =>
         <a key={item.label} href={item.href} style={{
           fontSize: 14, fontWeight: 600, color: '#555577', textDecoration: 'none',
@@ -649,8 +649,8 @@ const Footer = ({ tweaks }) =>
       </div>
       <div style={{ display: 'flex', gap: 28, fontSize: 13, fontWeight: 500 }}>
         {[
-          {label:'Privacy Policy', href:'privacy.html'},
-          {label:'Terms of Service', href:'terms.html'},
+          {label:'Privacy Policy', href:'/privacy'},
+          {label:'Terms of Service', href:'/terms'},
           {label:'Contact Us', href:'mailto:support@techease.app'},
           {label:'Support', href:'mailto:support@techease.app'},
         ].map((l) =>
