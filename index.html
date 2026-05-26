@@ -12,13 +12,16 @@
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
       background: #F7F5FF;
       color: #1A1A2E;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      max-width: 100%;
     }
+    #root { overflow-x: hidden; max-width: 100%; }
     :root {
       --blue: #007AFF;
       --blue-light: #E8F0FF;
@@ -34,6 +37,123 @@
       --border: #E8E4F0;
     }
     ::selection { background: var(--lavender-mid); }
+
+    .section-pad { padding: 100px 40px; }
+    .hero-section { padding: 100px 40px 60px; }
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 60px;
+    }
+    .hero-copy { flex: 1; max-width: 580px; min-width: 0; }
+    .hero-mockup-wrap { position: relative; flex-shrink: 0; }
+    .steps-grid,
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .features-grid { gap: 20px; }
+    .examples-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; max-width: 820px; margin: 0 auto; }
+    .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .site-footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .site-footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px 28px;
+      justify-content: center;
+    }
+    .nav-desktop-links { display: flex; align-items: center; gap: 32px; }
+    .nav-menu-btn {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border: none;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.9);
+      color: #1A1A2E;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .nav-mobile-panel {
+      display: none;
+      position: fixed;
+      top: 64px;
+      left: 0;
+      right: 0;
+      z-index: 99;
+      background: rgba(247,245,255,0.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(220,210,255,0.5);
+      padding: 16px 20px 24px;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .nav-mobile-panel.open { display: flex; }
+    .nav-mobile-link {
+      display: block;
+      padding: 14px 12px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #555577;
+      text-decoration: none;
+      border-radius: 12px;
+    }
+    .nav-mobile-link:hover { background: rgba(0,122,255,0.08); color: #007AFF; }
+    .nav-mobile-cta { margin-top: 12px; display: flex; justify-content: center; }
+
+    @media (max-width: 900px) {
+      .hero-inner { flex-direction: column; text-align: center; gap: 48px; }
+      .hero-copy { max-width: 100%; }
+      .hero-badge { justify-content: center; margin-left: auto; margin-right: auto; }
+      .hero-subhead { margin-left: auto; margin-right: auto; }
+      .hero-cta-row { justify-content: center; }
+      .hero-social { justify-content: center; }
+      .hero-mockup-wrap { display: flex; justify-content: center; width: 100%; overflow: hidden; }
+      .steps-grid,
+      .features-grid { grid-template-columns: 1fr; }
+      .examples-grid { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .steps-grid > div,
+      .features-grid > div,
+      .pricing-grid > div { padding: 28px 24px !important; }
+    }
+
+    @media (max-width: 768px) {
+      .section-pad { padding: 64px 20px !important; }
+      .hero-section { padding: 88px 20px 48px !important; min-height: auto !important; }
+      .hero-headline { font-size: clamp(36px, 10vw, 48px) !important; }
+      .hero-subhead { font-size: 18px !important; }
+      .hero-badge-text { font-size: 12px !important; }
+      .section-title { font-size: clamp(28px, 8vw, 36px) !important; }
+      .section-subtitle { font-size: 16px !important; }
+      .cta-title { font-size: clamp(28px, 8vw, 40px) !important; }
+      .nav-shell { padding: 0 16px !important; }
+      .nav-desktop-links { display: none; }
+      .nav-menu-btn { display: flex; }
+      .site-footer-inner { flex-direction: column; text-align: center; }
+      .site-footer-links { flex-direction: column; gap: 12px; }
+      .phone-mockup { transform: scale(0.88); transform-origin: center top; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-section { padding-top: 80px !important; }
+      .hero-headline { font-size: 32px !important; }
+      .hero-badge { max-width: 100%; }
+      .hero-badge-text { white-space: normal; text-align: left; }
+      .phone-mockup { transform: scale(0.78); }
+      .pricing-price { font-size: 42px !important; }
+    }
   </style>
 </head>
 <body>
@@ -72,7 +192,7 @@ const Icon = ({ name, size = 24, color = "currentColor" }) => {
 
 /* ─── PHONE MOCKUP ─── */
 const PhoneMockup = () =>
-<div style={{
+<div className="phone-mockup" style={{
   width: 280, height: 560,
   background: '#1A1A2E',
   borderRadius: 44,
@@ -188,23 +308,42 @@ onMouseLeave={(e) => {e.currentTarget.style.transform = 'translateY(0)';e.curren
 /* ─── NAV ─── */
 const Nav = ({ tweaks }) => {
   const [scrolled, setScrolled] = React.useState(false);
+  const [menuOpen, setMenuOpen] = React.useState(false);
+
+  const navLinks = [
+    {label:'How It Works', href:'#how-it-works'},
+    {label:'Features', href:'#features'},
+    {label:'Pricing', href:'#pricing'},
+    {label:'Privacy', href:'/privacy'},
+    {label:'Terms', href:'/terms'},
+  ];
+
   React.useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', fn);
     return () => window.removeEventListener('scroll', fn);
   }, []);
+
+  React.useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
+
+  const closeMenu = () => setMenuOpen(false);
+
   return (
-    <nav style={{
+    <>
+    <nav className="nav-shell" style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
       padding: '0 40px',
       height: 64,
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      background: scrolled ? 'rgba(247,245,255,0.92)' : 'transparent',
-      backdropFilter: scrolled ? 'blur(12px)' : 'none',
-      borderBottom: scrolled ? '1px solid rgba(220,210,255,0.5)' : 'none',
+      background: scrolled || menuOpen ? 'rgba(247,245,255,0.92)' : 'transparent',
+      backdropFilter: scrolled || menuOpen ? 'blur(12px)' : 'none',
+      borderBottom: scrolled || menuOpen ? '1px solid rgba(220,210,255,0.5)' : 'none',
       transition: 'all 0.3s'
     }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+      <a href="#hero" onClick={closeMenu} style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
         <div style={{
           width: 36, height: 36, borderRadius: 10,
           background: tweaks.accentColor,
@@ -213,15 +352,9 @@ const Nav = ({ tweaks }) => {
           <Icon name="phone" size={18} color="white" />
         </div>
         <span style={{ fontSize: 18, fontWeight: 800, color: '#1A1A2E', letterSpacing: '-0.02em' }}>TechEase</span>
-      </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
-        {[
-          {label:'How It Works', href:'#how-it-works'},
-          {label:'Features', href:'#features'},
-          {label:'Pricing', href:'#pricing'},
-          {label:'Privacy', href:'/privacy'},
-          {label:'Terms', href:'/terms'},
-        ].map((item) =>
+      </a>
+      <div className="nav-desktop-links">
+        {navLinks.map((item) =>
         <a key={item.label} href={item.href} style={{
           fontSize: 14, fontWeight: 600, color: '#555577', textDecoration: 'none',
           transition: 'color 0.15s'
@@ -232,44 +365,70 @@ const Nav = ({ tweaks }) => {
         )}
         <AppStoreBtn color={tweaks.accentColor} />
       </div>
-    </nav>);
+      <button
+        type="button"
+        className="nav-menu-btn"
+        aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+        aria-expanded={menuOpen}
+        onClick={() => setMenuOpen((open) => !open)}
+      >
+        {menuOpen ? (
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+            <line x1="6" y1="6" x2="18" y2="18" /><line x1="18" y1="6" x2="6" y2="18" />
+          </svg>
+        ) : (
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+            <line x1="4" y1="7" x2="20" y2="7" /><line x1="4" y1="12" x2="20" y2="12" /><line x1="4" y1="17" x2="20" y2="17" />
+          </svg>
+        )}
+      </button>
+    </nav>
+    <div className={`nav-mobile-panel${menuOpen ? ' open' : ''}`}>
+      {navLinks.map((item) =>
+        <a key={item.label} href={item.href} className="nav-mobile-link" onClick={closeMenu}>{item.label}</a>
+      )}
+      <div className="nav-mobile-cta">
+        <AppStoreBtn large color={tweaks.accentColor} />
+      </div>
+    </div>
+    </>);
 
 };
 
 /* ─── HERO ─── */
 const Hero = ({ tweaks }) =>
-<section id="hero" style={{
+<section id="hero" className="hero-section" style={{
   minHeight: '100vh',
   background: tweaks.heroBg,
   display: 'flex', alignItems: 'center',
-  padding: '100px 40px 60px',
   position: 'relative', overflow: 'hidden'
 }}>
     {/* background blobs */}
     <div style={{ position: 'absolute', width: 600, height: 600, borderRadius: '50%', background: 'radial-gradient(circle, rgba(160,130,255,0.18) 0%, transparent 70%)', top: '-10%', right: '-5%', pointerEvents: 'none' }} />
     <div style={{ position: 'absolute', width: 400, height: 400, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,107,157,0.12) 0%, transparent 70%)', bottom: '5%', left: '5%', pointerEvents: 'none' }} />
 
-    <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 60 }}>
+    <div className="hero-inner">
 
       {/* left: copy */}
-      <div style={{ flex: 1, maxWidth: 580 }}>
+      <div className="hero-copy">
         {/* badge */}
         {tweaks.showBadge &&
-      <div style={{
+      <div className="hero-badge" style={{
         display: 'inline-flex', alignItems: 'center', gap: 6,
         background: 'white', border: '1px solid #E8E4F0',
         borderRadius: 100, padding: '6px 14px 6px 8px',
-        marginBottom: 32, boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
+        marginBottom: 32, boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+        maxWidth: '100%'
       }}>
-            <div style={{ background: '#FFE8F2', borderRadius: '50%', width: 22, height: 22, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ background: '#FFE8F2', borderRadius: '50%', width: 22, height: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               <Icon name="heart" size={12} color="#FF6B9D" />
             </div>
-            <span style={{ fontSize: 13, fontWeight: 600, color: '#555577' }}>Made just for seniors · New on the App Store</span>
+            <span className="hero-badge-text" style={{ fontSize: 13, fontWeight: 600, color: '#555577' }}>Made just for seniors · New on the App Store</span>
           </div>
       }
 
         {/* headline */}
-        <h1 style={{
+        <h1 className="hero-headline" style={{
         fontSize: tweaks.headlineSize,
         fontWeight: 800,
         color: '#1A1A2E',
@@ -283,7 +442,7 @@ const Hero = ({ tweaks }) =>
         </h1>
 
         {/* subheadline */}
-        <p style={{
+        <p className="hero-subhead" style={{
         fontSize: 22,
         lineHeight: 1.6,
         color: '#555577',
@@ -296,7 +455,7 @@ const Hero = ({ tweaks }) =>
         </p>
 
         {/* CTA group */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap', marginBottom: 40 }}>
+        <div className="hero-cta-row" style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap', marginBottom: 40 }}>
           <AppStoreBtn large color={tweaks.accentColor} />
           <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <span style={{ fontSize: 14, fontWeight: 700, color: '#1A1A2E' }}>Free to start</span>
@@ -305,7 +464,7 @@ const Hero = ({ tweaks }) =>
         </div>
 
         {/* social proof avatars */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div className="hero-social" style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
           <div style={{ display: 'flex' }}>
             {['#C8B8FF', '#FFB8D4', '#B8E4FF', '#B8FFD4'].map((c, i) =>
           <div key={i} style={{
@@ -327,46 +486,10 @@ const Hero = ({ tweaks }) =>
       </div>
 
       {/* right: phone mockup */}
-      <div style={{ position: 'relative', flexShrink: 0 }}>
+      <div className="hero-mockup-wrap">
         <PhoneMockup />
-        {/* floating card 1 */}
-        <div style={{
-        position: 'absolute', top: 30, left: -100,
-        background: 'white', borderRadius: 14, padding: '10px 14px',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
-        display: 'flex', alignItems: 'center', gap: 8, minWidth: 160,
-        animation: 'floatA 3s ease-in-out infinite'
-      }}>
-          <div style={{ width: 32, height: 32, borderRadius: 10, background: '#E8F0FF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-            <Icon name="check" size={16} color="#007AFF" />
-          </div>
-          <div>
-            <div style={{ fontSize: 12, fontWeight: 700, color: '#1A1A2E' }}>Clear answer!</div>
-            <div style={{ fontSize: 10, color: '#8888AA' }}>In plain English</div>
-          </div>
-        </div>
-        {/* floating card 2 */}
-        <div style={{
-        position: 'absolute', bottom: 80, right: -110,
-        background: 'white', borderRadius: 14, padding: '10px 14px',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
-        display: 'flex', alignItems: 'center', gap: 8, minWidth: 150,
-        animation: 'floatB 3.5s ease-in-out infinite'
-      }}>
-          <div style={{ width: 32, height: 32, borderRadius: 10, background: '#FFE8F2', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-            <Icon name="speak" size={16} color="#FF6B9D" />
-          </div>
-          <div>
-            <div style={{ fontSize: 12, fontWeight: 700, color: '#1A1A2E' }}>Read Aloud</div>
-            <div style={{ fontSize: 10, color: '#8888AA' }}>Just tap to hear it</div>
-          </div>
-        </div>
       </div>
     </div>
-    <style>{`
-      @keyframes floatA { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-      @keyframes floatB { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
-    `}</style>
   </section>;
 
 
@@ -378,14 +501,14 @@ const HowItWorks = ({ tweaks }) => {
   { num: '3', title: 'Follow Along Easily', desc: 'Each step is numbered. Tap "Read Aloud" and the app talks you through it.', color: '#E8FFE8', accent: '#34C759' }];
 
   return (
-    <section id="how-it-works" style={{ padding: '100px 40px', background: '#FFFFFF' }}>
+    <section id="how-it-works" className="section-pad" style={{ background: '#FFFFFF' }}>
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: 64 }}>
           <div style={{ fontSize: 13, fontWeight: 700, color: tweaks.accentColor, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>Simple as 1, 2, 3</div>
-          <h2 style={{ fontSize: 48, fontWeight: 800, color: '#1A1A2E', letterSpacing: '-0.03em', marginBottom: 16 }}>How It Works</h2>
-          <p style={{ fontSize: 19, color: '#8888AA', fontWeight: 500, maxWidth: 500, margin: '0 auto' }}>You don't need to be good with technology. That's the whole point.</p>
+          <h2 className="section-title" style={{ fontSize: 48, fontWeight: 800, color: '#1A1A2E', letterSpacing: '-0.03em', marginBottom: 16 }}>How It Works</h2>
+          <p className="section-subtitle" style={{ fontSize: 19, color: '#8888AA', fontWeight: 500, maxWidth: 500, margin: '0 auto' }}>You don't need to be good with technology. That's the whole point.</p>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+        <div className="steps-grid">
           {steps.map((s, i) =>
           <div key={i} style={{
             background: s.color, borderRadius: 24, padding: '36px 32px',
@@ -425,14 +548,14 @@ const Features = ({ tweaks }) => {
   { icon: 'heart', title: 'Made for You', desc: 'Designed for people 60 and older. Large text. Easy buttons.', color: '#FFE8F2', accent: '#FF6B9D' }];
 
   return (
-    <section id="features" style={{ padding: '100px 40px', background: tweaks.heroBg }}>
+    <section id="features" className="section-pad" style={{ background: tweaks.heroBg }}>
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: 64 }}>
           <div style={{ fontSize: 13, fontWeight: 700, color: tweaks.accentColor, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>Everything you need</div>
-          <h2 style={{ fontSize: 48, fontWeight: 800, color: '#1A1A2E', letterSpacing: '-0.03em', marginBottom: 16 }}>Built for Real People</h2>
-          <p style={{ fontSize: 19, color: '#8888AA', fontWeight: 500, maxWidth: 480, margin: '0 auto' }}>Not built for tech experts. Built for you.</p>
+          <h2 className="section-title" style={{ fontSize: 48, fontWeight: 800, color: '#1A1A2E', letterSpacing: '-0.03em', marginBottom: 16 }}>Built for Real People</h2>
+          <p className="section-subtitle" style={{ fontSize: 19, color: '#8888AA', fontWeight: 500, maxWidth: 480, margin: '0 auto' }}>Not built for tech experts. Built for you.</p>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 20 }}>
+        <div className="features-grid">
           {features.map((f, i) =>
           <div key={i} style={{
             background: 'white', borderRadius: 20, padding: '28px 26px',
@@ -473,7 +596,7 @@ const Testimonials = ({ tweaks }) => {
     { q: "How do I block a number that keeps calling?", cat: "Phone" },
   ];
   return (
-    <section id="examples" style={{ padding: '100px 40px', background: '#1A1A2E', position:'relative', overflow:'hidden' }}>
+    <section id="examples" className="section-pad" style={{ background: '#1A1A2E', position:'relative', overflow:'hidden' }}>
       {/* soft gradient blobs */}
       <div style={{ position:'absolute', width:500, height:500, borderRadius:'50%', background:'radial-gradient(circle, rgba(160,130,255,0.18) 0%, transparent 70%)', top:'-15%', right:'-8%', pointerEvents:'none' }} />
       <div style={{ position:'absolute', width:400, height:400, borderRadius:'50%', background:'radial-gradient(circle, rgba(255,107,157,0.12) 0%, transparent 70%)', bottom:'-10%', left:'-5%', pointerEvents:'none' }} />
@@ -481,11 +604,11 @@ const Testimonials = ({ tweaks }) => {
       <div style={{ maxWidth: 1100, margin: '0 auto', position:'relative' }}>
         <div style={{ textAlign: 'center', marginBottom: 56 }}>
           <div style={{ fontSize: 13, fontWeight: 700, color: '#C8B8FF', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>Ask anything</div>
-          <h2 style={{ fontSize: 48, fontWeight: 800, color: 'white', letterSpacing: '-0.03em', marginBottom: 16, lineHeight:1.1 }}>No question is too small.</h2>
-          <p style={{ fontSize: 19, color: 'rgba(255,255,255,0.6)', fontWeight: 500, maxWidth: 520, margin: '0 auto' }}>Here are real questions you can ask TechEase. Type them in. Get a clear answer.</p>
+          <h2 className="section-title" style={{ fontSize: 48, fontWeight: 800, color: 'white', letterSpacing: '-0.03em', marginBottom: 16, lineHeight:1.1 }}>No question is too small.</h2>
+          <p className="section-subtitle" style={{ fontSize: 19, color: 'rgba(255,255,255,0.6)', fontWeight: 500, maxWidth: 520, margin: '0 auto' }}>Here are real questions you can ask TechEase. Type them in. Get a clear answer.</p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 14, maxWidth: 820, margin: '0 auto' }}>
+        <div className="examples-grid">
           {examples.map((e, i) => (
             <div key={i} style={{
               background: 'rgba(255,255,255,0.06)',
@@ -528,14 +651,14 @@ const Pricing = ({ tweaks }) => {
   const freeFeatures = ['2 questions per day', 'Full answer quality', 'Read Aloud feature', 'Daily iPhone tips'];
   const proFeatures = ['20 questions per day', '90 days of saved history', 'Priority answers', 'Everything in Free'];
   return (
-    <section id="pricing" style={{ padding: '100px 40px', background: 'white' }}>
+    <section id="pricing" className="section-pad" style={{ background: 'white' }}>
       <div style={{ maxWidth: 800, margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: 64 }}>
           <div style={{ fontSize: 13, fontWeight: 700, color: tweaks.accentColor, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>Simple pricing</div>
-          <h2 style={{ fontSize: 48, fontWeight: 800, color: '#1A1A2E', letterSpacing: '-0.03em', marginBottom: 16 }}>Start Free. Upgrade Any Time.</h2>
-          <p style={{ fontSize: 19, color: '#8888AA', fontWeight: 500, maxWidth: 440, margin: '0 auto' }}>No sneaky fees. Cancel any time. No questions asked.</p>
+          <h2 className="section-title" style={{ fontSize: 48, fontWeight: 800, color: '#1A1A2E', letterSpacing: '-0.03em', marginBottom: 16 }}>Start Free. Upgrade Any Time.</h2>
+          <p className="section-subtitle" style={{ fontSize: 19, color: '#8888AA', fontWeight: 500, maxWidth: 440, margin: '0 auto' }}>No sneaky fees. Cancel any time. No questions asked.</p>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
+        <div className="pricing-grid">
           {/* free */}
           <div style={{
             background: '#F7F5FF', borderRadius: 24, padding: '36px 32px',
@@ -544,7 +667,7 @@ const Pricing = ({ tweaks }) => {
           }}>
             <div style={{ fontSize: 14, fontWeight: 700, color: '#8888AA', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 8 }}>Free</div>
             <div style={{ display: 'flex', alignItems: 'flex-end', gap: 4, marginBottom: 8 }}>
-              <span style={{ fontSize: 52, fontWeight: 800, color: '#1A1A2E', lineHeight: 1, letterSpacing: '-0.04em' }}>$0</span>
+              <span className="pricing-price" style={{ fontSize: 52, fontWeight: 800, color: '#1A1A2E', lineHeight: 1, letterSpacing: '-0.04em' }}>$0</span>
               <span style={{ fontSize: 16, color: '#8888AA', fontWeight: 500, paddingBottom: 8 }}>/month</span>
             </div>
             <p style={{ fontSize: 14, color: '#8888AA', marginBottom: 28, fontWeight: 500 }}>Perfect way to try it out</p>
@@ -581,7 +704,7 @@ const Pricing = ({ tweaks }) => {
             }}>MOST POPULAR</div>
             <div style={{ fontSize: 14, fontWeight: 700, color: 'rgba(255,255,255,0.7)', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 8 }}>Pro</div>
             <div style={{ display: 'flex', alignItems: 'flex-end', gap: 4, marginBottom: 8 }}>
-              <span style={{ fontSize: 52, fontWeight: 800, color: 'white', lineHeight: 1, letterSpacing: '-0.04em' }}>$4.99</span>
+              <span className="pricing-price" style={{ fontSize: 52, fontWeight: 800, color: 'white', lineHeight: 1, letterSpacing: '-0.04em' }}>$4.99</span>
               <span style={{ fontSize: 16, color: 'rgba(255,255,255,0.7)', fontWeight: 500, paddingBottom: 8 }}>/month</span>
             </div>
             <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)', marginBottom: 28, fontWeight: 500 }}>For heavy users who love it</p>
@@ -615,14 +738,13 @@ const Pricing = ({ tweaks }) => {
 
 /* ─── FINAL CTA ─── */
 const FinalCTA = ({ tweaks }) =>
-<section id="download" style={{
-  padding: '100px 40px',
+<section id="download" className="section-pad" style={{
   background: tweaks.heroBg,
   textAlign: 'center'
 }}>
     <div style={{ maxWidth: 600, margin: '0 auto' }}>
       <div style={{ fontSize: 60, marginBottom: 20 }}>📱</div>
-      <h2 style={{ fontSize: 52, fontWeight: 800, color: '#1A1A2E', letterSpacing: '-0.03em', marginBottom: 16, lineHeight: 1.15 }}>
+      <h2 className="cta-title" style={{ fontSize: 52, fontWeight: 800, color: '#1A1A2E', letterSpacing: '-0.03em', marginBottom: 16, lineHeight: 1.15 }}>
         Stop Struggling.<br />Start Asking.
       </h2>
       <p style={{ fontSize: 19, color: '#8888AA', fontWeight: 500, marginBottom: 40, lineHeight: 1.6 }}>
@@ -639,15 +761,15 @@ const FinalCTA = ({ tweaks }) =>
 
 /* ─── FOOTER ─── */
 const Footer = ({ tweaks }) =>
-<footer style={{ background: '#1A1A2E', padding: '48px 40px', color: 'rgba(255,255,255,0.5)' }}>
-    <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
+<footer style={{ background: '#1A1A2E', padding: '48px 20px', color: 'rgba(255,255,255,0.5)' }}>
+    <div className="site-footer-inner">
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
         <div style={{ width: 30, height: 30, borderRadius: 8, background: tweaks.accentColor, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Icon name="phone" size={14} color="white" />
         </div>
         <span style={{ fontSize: 16, fontWeight: 800, color: 'white' }}>TechEase</span>
       </div>
-      <div style={{ display: 'flex', gap: 28, fontSize: 13, fontWeight: 500 }}>
+      <div className="site-footer-links" style={{ fontSize: 13, fontWeight: 500 }}>
         {[
           {label:'Privacy Policy', href:'/privacy'},
           {label:'Terms of Service', href:'/terms'},
